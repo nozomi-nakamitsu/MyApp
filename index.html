@@ -1,79 +1,90 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <title>Quotes!</title>
-<style>
-body{
-    font-family: Verdana, sans-serif;
-    padding:  10px;
-    background: skyblue;
-}
-p{
-    color: #fff;
-    font-size: 36px;
-    margin: 0;
-    padding: 0;
-}
-</style>
-  </head>
-  <body>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            padding: 10px;
+            background: skyblue;
+        }
+
+        p {
+            color: #fff;
+            font-size: 36px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- bbb -->
     <p id="quote">ピジョン</p>
-  </body>
-  <script>
-      "use strict";
-      const electron = require('electron');
-      const ipcRenderer = electron.ipcRenderer;
-      const remote = electron.remote;
-      const Menu = remote.Menu;
-      const MenuItem = remote.MenuItem;
-      const shell = remote.shell;
+</body>
+<script>
+    "use strict";
+    const electron = require('electron');
+    const ipcRenderer = electron.ipcRenderer;
+    const remote = electron.remote;
+    const Menu = remote.Menu;
+    const MenuItem = remote.MenuItem;
+    const shell = remote.shell;
 
 
-let color = localStorage.getItem("color")?localStorage.getItem("color"):"skyblue";
-setBackgroundColor(color);
-let menu = new Menu();
-menu.append(new MenuItem({label:"skyblue",click: function(){
-    setBackgroundColor("skyblue");
-}}));
-menu.append(new MenuItem({label:"Tomato",click: function(){
-    setBackgroundColor("tomato");
-}}));
-menu.append(new MenuItem({label:"Slate Gray",click: function(){
-    setBackgroundColor("slategray");
-}}));
-window.addEventListener("contextmenu",function(e){
-    e.preventDefault();
-    menu.popup(remote.getCurrentWindow());
-});
-function setBackgroundColor(color){
-    document.body.style.backgroundColor= color;
-    localStorage.setItem("color",color);
-    // ipcRenderer.send("bgcolor_changed",color);
-}
-      const  quote = document.getElementById("quote");
-      const quotes=[
+    let color = localStorage.getItem("color") ? localStorage.getItem("color") : "skyblue";
+    setBackgroundColor(color);
+    let menu = new Menu();
+    menu.append(new MenuItem({
+        label: "skyblue", click: function () {
+            setBackgroundColor("skyblue");
+        }
+    }));
+    menu.append(new MenuItem({
+        label: "Tomato", click: function () {
+            setBackgroundColor("tomato");
+        }
+    }));
+    menu.append(new MenuItem({
+        label: "Slate Gray", click: function () {
+            setBackgroundColor("slategray");
+        }
+    }));
+    window.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+        menu.popup(remote.getCurrentWindow());
+    });
+    function setBackgroundColor(color) {
+        document.body.style.backgroundColor = color;
+        localStorage.setItem("color", color);
+        // ipcRenderer.send("bgcolor_changed",color);
+    }
+    const quote = document.getElementById("quote");
+    const quotes = [
         "フシギダネ",
         "ゼニガメ",
         "リザードン",
         "カビゴン",
         "ピカチュウ",
         "ジラーチ",
-      ];
-      window.addEventListener("click",function(){
-       quote.innerHTML=quotes[Math.floor(Math.random()* quotes.length)];
-      });
-      ipcRenderer.on("set_bgcolor",function(event,color){
-            setBackgroundColor();
-      });
-      setTimeout(function(){
-let notification =new Notification(
-    "Quote!",
-    {body: "Visit our website"}
-);
-notification.onclick =function(){
-shell.openExternal("https://dotinstall.com");
-}
-      },3000);
-  </script>
+    ];
+    window.addEventListener("click", function () {
+        quote.innerHTML = quotes[Math.floor(Math.random() * quotes.length)];
+    });
+    ipcRenderer.on("set_bgcolor", function (event, color) {
+        setBackgroundColor();
+    });
+    setTimeout(function () {
+        let notification = new Notification(
+            "Quote!",
+            { body: "Visit our website" }
+        );
+        notification.onclick = function () {
+            shell.openExternal("https://dotinstall.com");
+        }
+    }, 3000);
+</script>
+
 </html>
